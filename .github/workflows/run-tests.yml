@@ -18,7 +18,7 @@ jobs:
 
 
 
-deploy-on-droplet:
+  deploy-on-droplet:
     needs: run-tests
     runs-on: ubuntu-latest
     steps:
