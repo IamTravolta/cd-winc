@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: ubuntu-winc/ssh-action@master
+        uses: appleboy/ssh-action@master
         with:
             host: ${{secrets.SSH_HOST}} 
             key: ${{secrets.SSH_PRIVATE_KEY}}
