@@ -30,7 +30,7 @@ jobs:
             username: ${{secrets.SSH_USERNAME}}
             port: ${{secrets.SSH_PORT}}
             script: |
-                  cd /home/cd-winc
+                  cd /home/farm
                   git init .
                   git pull
                   systemctl restart cd-winc
