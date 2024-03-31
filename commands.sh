@@ -1,4 +1,4 @@
-cd /home/cd-winc
+cd /home/farm
 
 git add .
 git clone git@github.com:M https://github.com/IamTravolta/cd-winc
