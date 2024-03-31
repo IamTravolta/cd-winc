@@ -25,10 +25,10 @@ jobs:
       - name: Checkout repository
         uses: appleboy/ssh-action@master
         with:
-            host: 157.230.124.163 
-            key: !2024Nolovelost
-            username: root
-            port: 80
+            host: ${{ secrets.SSH_HOST }} 
+            key: ${{ secrets.SSH_PRIVATE_KEY }}
+            username: ${{ secrets.SSH_USERNAME }}
+            port: ${{ secrets.SSH_PORT }}
             script: |
                   cd /home/farm/farm
                   git init .
@@ -36,14 +36,3 @@ jobs:
                   systemctl restart farm
                   systemctl status farm
                   echo "Test"
-            # host: ${{ secrets.SSH_HOST }} 
-            # key: ${{ secrets.SSH_PRIVATE_KEY }}
-            # username: ${{ secrets.SSH_USERNAME }}
-            # port: ${{ secrets.SSH_PORT }}
-            # script: |
-            #       cd /home/farm/farm
-            #       git init .
-            #       git pull
-            #       systemctl restart farm
-            #       systemctl status farm
-            #       echo "Test"
