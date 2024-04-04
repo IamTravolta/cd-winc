@@ -29,9 +29,10 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            cd /home/farm/farm
+            cd /home/farm
             git init .
             git pull
+            git branch --set-upstream-to=origin/farm farm
             systemctl restart farm
             systemctl status farm
             echo "Test"
