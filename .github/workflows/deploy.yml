@@ -32,7 +32,6 @@ jobs:
             cd /home/farm
             git init .
             git pull
-            git branch --set-upstream-to=origin/farm farm
             systemctl restart farm
             systemctl status farm
             echo "Test"
