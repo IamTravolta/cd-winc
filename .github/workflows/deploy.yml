@@ -32,7 +32,7 @@ jobs:
             cd /home/farm
             git init .
 
-            git remote add origin https://github.com/IamTravolta/cd-winc
+            git remote add origin git@github.com:M https://github.com/IamTravolta/cd-winc
             git fetch
             git branch --set-upstream-to=origin/master master
             git pull origin master
