@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main  # Set this to your deployment branch
-      
+
 jobs:
         deploy:
           runs-on: ubuntu-latest
@@ -21,6 +21,6 @@ jobs:
       
           - name: Execute Commands on Remote Server
             run: |
-              ssh -i ~/.ssh/id_rsa ${{ secrets.SERVER_USER }}@${{ secrets.DROPLET_IP }} "cd /home/farm && ./commands.sh"
+              ssh -i ~/.ssh/id_rsa ${{ secrets.SERVER_USER }}@${{ secrets.DROPLET_IP }} "cd https://github.com/IamTravolta/cd-winc && ./commands.sh"
             env:
               SSH_KEY: ${{ secrets.SSH_KEY }}      
