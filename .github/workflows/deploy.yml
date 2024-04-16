@@ -21,6 +21,6 @@ jobs:
       
           - name: Execute Commands on Remote Server
             run: |
-              ssh -i ~/.ssh/id_rsa ${{ secrets.SERVER_USER }}@${{ secrets.DROPLET_IP }} "cd IamTravolta/cd-winc && ./commands.sh"
+              ssh -i ~/.ssh/id_rsa ${{ secrets.SERVER_USER }}@${{ secrets.DROPLET_IP }} "cd /IamTravolta/cd-winc && ./commands.sh"
             env:
               SSH_KEY: ${{ secrets.SSH_KEY }}      
