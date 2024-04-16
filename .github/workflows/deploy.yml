@@ -11,6 +11,11 @@ jobs:
           steps:
           - name: Checkout code
             uses: actions/checkout@v2
+
+          - name: Set Git Tracking Information
+            run: |
+              ssh -i ~/.ssh/id_rsa ${{ secrets.SERVER_USER }}@${{ secrets.DROPLET_IP }} "cd /home/farm && git branch --set-upstream-to=origin/main main && git pull"
+          
           
           - name: Set up SSH
             run: |
@@ -18,9 +23,19 @@ jobs:
               echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
               chmod 600 ~/.ssh/id_rsa
               ssh-keyscan -H ${{ secrets.DROPLET_IP }} >> ~/.ssh/known_hosts
+
+          
+          - name: Setup SSH and Git Config
+            run: |
+                eval $(ssh-agent -s)
+                ssh-add - <<< "${{ secrets.GIT_SSH_KEY }}"
+                git config --global user.email "travoltaogbee@hotmail.nl"
+                git config --global user.name "IamTravolta"
+            
+          
       
           - name: Execute Commands on Remote Server
             run: |
               ssh -i ~/.ssh/id_rsa ${{ secrets.SERVER_USER }}@${{ secrets.DROPLET_IP }} "cd /home/farm && ./commands.sh"
             env:
-              SSH_KEY: ${{ secrets.SSH_KEY }}      
+              SSH_KEY: ${{ secrets.SSH_KEY }}  
