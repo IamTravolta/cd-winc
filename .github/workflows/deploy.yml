@@ -43,4 +43,12 @@ jobs:
                 echo 'Git repository not found in /home/farm'; \
               fi"
             
-          
+        - name: Prepare Environment and Update Branch
+          run: |
+            ssh -i ~/.ssh/id_rsa ${{ secrets.SERVER_USER }}@${{ secrets.DROPLET_IP }} "\
+              cd /home/farm && \
+              git fetch --all && \
+              git stash push -m 'Auto-stashing changes before switching branches' && \
+              git checkout main || git branch main origin/main && \
+              git pull origin main"
+                      
