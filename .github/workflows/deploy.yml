@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: Run Tests
 
 on:
   push:
@@ -6,39 +6,41 @@ on:
       - main  # Set this to your deployment branch
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-    
-    - name: Set up SSH
-      run: |
-        mkdir -p ~/.ssh
-        echo "${{ secrets.SSH_TOKEN }}" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan -H "157.230.124.163" >> ~/.ssh/known_hosts
-    
-    - name: Run tests
-      run: |
-        # Add commands to run your tests here
-        echo "Running tests..."
-        # Example: npm test
-    
-    - name: Deploy to Droplet
-      run: |
+    run-tests:
+      runs-on: ubuntu-20.04
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v3
+        - name: Setup Python 3.11
+          uses: actions/setup-python@v3
+          with:
+            python-version: '3.11.4'
+        - name: Install Dependencies
+          run: pip install -r requirements.txt
+        - name: Run tests
+          run: pytest
+  
+    deploy-on-droplet:
+      needs: run-tests
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout repository
+          uses: appleboy/ssh-action@master
+          with:
             host: ${{ secrets.SSH_HOST }} 
             password: ${{ secrets.SSH_PRIVATE_KEY }}
             username: ${{ secrets.SSH_USERNAME }}
             port: ${{ secrets.SSH_PORT }}
-      env:
-        SSH_KEY: ${{ secrets.SSH_TOKEN }}
-        script: |
-            cd /home/farm
-            git init .
-            git clone git@github.com:M https://github.com/IamTravolta/cd-winc
-            git pull
-            systemctl restart farm
-            systemctl status farm
-            echo "Test"
+            script: |
+              cd /home/farm
+              git init .
+              git clone git@github.com:M https://github.com/IamTravolta/cd-winc
+              git pull
+              systemctl restart farm
+              systemctl status farm
+              echo "Test"
+  
+  
+  
+  
+  
