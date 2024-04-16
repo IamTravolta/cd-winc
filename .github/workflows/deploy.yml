@@ -35,8 +35,12 @@ jobs:
           run: |
             ssh -i ~/.ssh/id_rsa ${{ secrets.SERVER_USER }}@${{ secrets.DROPLET_IP }} "\
               cd /home/farm && \
-              git fetch --all && \
-              (git branch --list main || git branch main origin/main) && \
-              git branch --set-upstream-to=origin/main main && \
-              git pull origin main"
+              if [ -d .git ]; then \
+                git fetch --all && \
+                git branch --set-upstream-to=origin/main main || git checkout -b main origin/main && \
+                git pull origin main; \
+              else \
+                echo 'Git repository not found in /home/farm'; \
+              fi"
+            
           
