@@ -10,7 +10,7 @@ cd /home/farm
 # Configure Git to know which remote branch to pull from
 git remote add origin https://github.com/IamTravolta/cd-winc.git
 git fetch --all
-git branch --set-upstream-to=origin/main farm
+git branch --set-upstream-to=origin/main main
 
 # Pull the latest changes
 git pull origin main
