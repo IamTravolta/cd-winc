@@ -30,19 +30,7 @@ jobs:
             echo "${{ secrets.SSH_KEY }}" | tr -d '\r' > ~/.ssh/id_rsa
             chmod 600 ~/.ssh/id_rsa
             ssh-keyscan -H ${{ secrets.DROPLET_IP }} >> ~/.ssh/known_hosts
-
-        - name: Set Git Branch and Pull Changes
-          run: |
-            ssh -i ~/.ssh/id_rsa ${{ secrets.SERVER_USER }}@${{ secrets.DROPLET_IP }} "\
-              cd /home/farm && \
-              if [ -d .git ]; then \
-                git fetch --all && \
-                git branch --set-upstream-to=origin/main main || git checkout -b main origin/main && \
-                git pull origin main; \
-              else \
-                echo 'Git repository not found in /home/farm'; \
-              fi"
-            
+         
         - name: Prepare Environment and Update Branch
           run: |
             ssh -i ~/.ssh/id_rsa ${{ secrets.SERVER_USER }}@${{ secrets.DROPLET_IP }} "\
