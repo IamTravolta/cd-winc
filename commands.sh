@@ -8,7 +8,8 @@ ssh-add ~/path_to_your_private_key
 cd /home/farm
 
 # Configure Git to know which remote branch to pull from
-git remote add origin https://github.com/IamTravolta/cd-winc.git
+#git remote add origin https://github.com/IamTravolta/cd-winc.git
+git remote set-url origin git@github.com:IamTravolta/cd-winc.git
 git fetch --all
 git branch --set-upstream-to=origin/main main
 
