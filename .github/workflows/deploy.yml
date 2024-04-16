@@ -30,3 +30,13 @@ jobs:
             echo "${{ secrets.SSH_KEY }}" | tr -d '\r' > ~/.ssh/id_rsa
             chmod 600 ~/.ssh/id_rsa
             ssh-keyscan -H ${{ secrets.DROPLET_IP }} >> ~/.ssh/known_hosts
+
+        - name: Set Git Branch and Pull Changes
+          run: |
+            ssh -i ~/.ssh/id_rsa ${{ secrets.SERVER_USER }}@${{ secrets.DROPLET_IP }} "\
+              cd /home/farm && \
+              git fetch --all && \
+              (git branch --list main || git branch main origin/main) && \
+              git branch --set-upstream-to=origin/main main && \
+              git pull origin main"
+          
