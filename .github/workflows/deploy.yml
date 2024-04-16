@@ -48,7 +48,6 @@ jobs:
               git config user.name 'IamTravolta' && \
               git config user.email 'travoltaogbee@hotmail.nl' && \
               git add . && \
-              git commit -m 'Committing changes' && \
               git push origin main"
 
 
