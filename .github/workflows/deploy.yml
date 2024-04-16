@@ -30,6 +30,20 @@ jobs:
             echo "${{ secrets.SSH_KEY }}" | tr -d '\r' > ~/.ssh/id_rsa
             chmod 600 ~/.ssh/id_rsa
             ssh-keyscan -H ${{ secrets.DROPLET_IP }} >> ~/.ssh/known_hosts
+
+
+        - name: Setup SSH Agent
+          uses: webfactory/ssh-agent@v0.5.3
+          with:
+            ssh-private-key: ${{ secrets.SSH_KEY }}
+        - name: Test SSH Connection
+          run: |
+            ssh ${{ secrets.SERVER_USER }}@${{ secrets.DROPLET_IP }} "echo 'SSH Connection Test'"
+          
+
+
+
+
          
         - name: Prepare Environment and Update Branch
           run: |
@@ -39,6 +53,11 @@ jobs:
               git stash push -m 'Auto-stashing changes before switching branches' && \
               git checkout main || git branch main origin/main && \
               git pull origin main"
+
+
+              run: |
+              ssh -vvv -i ~/.ssh/id_rsa ${{ secrets.SERVER_USER }}@${{ secrets.DROPLET_IP }} "echo 'SSH Connection Test'"
+            
 
 
         - name: Configure Git and Commit Changes
