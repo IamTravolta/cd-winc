@@ -1,9 +1,28 @@
+#!/bin/bash
+
+# Setup SSH for GitHub Access
+eval $(ssh-agent -s)
+ssh-add ~/path_to_your_private_key
+
+# Change to the project directory
 cd /home/farm
 
-git add .
-git clone git@github.com:M https://github.com/IamTravolta/cd-winc
-git pull
-systemctl restart farm
-exit
+# Configure Git to know which remote branch to pull from
+git remote add origin https://github.com/IamTravolta/cd-winc.git
+git fetch --all
+git branch --set-upstream-to=origin/main main
 
+# Pull the latest changes
+git pull origin main
 
+# Try to restart the service
+sudo systemctl restart farm.service
+
+# Check if the service started correctly
+if ! systemctl is-active --quiet farm.service; then
+    echo "Service failed to start, displaying logs:"
+    systemctl status farm.service
+    journalctl -xe
+else
+    echo "Service started successfully!"
+fi
