@@ -2,7 +2,7 @@
 
 # Setup SSH for GitHub Access
 eval $(ssh-agent -s)
-ssh-add ~/path_to_your_private_key
+ssh-add ~/Users/iamtra/.ssh/id_rsa.pub
 
 # Change to the project directory
 cd /home/farm
