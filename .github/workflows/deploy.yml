@@ -25,5 +25,5 @@ jobs:
       
           - name: Set Git Branch and Pull Changes
             run: |
-              ssh -i ~/.ssh/id_rsa ${{ secrets.SERVER_USER }}@${{ secrets.DROPLET_IP }} "cd /home/farm && git branch --set-upstream-to=origin/main master && git pull"
+              ssh -i ~/.ssh/id_rsa ${{ secrets.SERVER_USER }}@${{ secrets.DROPLET_IP }} "cd /home/farm && git fetch --all && git branch --set-upstream-to=origin/main main && git pull origin main"
       
