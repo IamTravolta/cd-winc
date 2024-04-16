@@ -4,30 +4,23 @@ on:
   push:
     branches:
       - main  # Set this to your deployment branch
-
+      
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-    
-    - name: Set up SSH
-      run: |
-        mkdir -p ~/.ssh
-        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
-    
-    - name: Run tests
-      run: |
-        # Add commands to run your tests here
-        echo "Running tests..."
-        # Example: npm test
-    
-    - name: Deploy to Droplet
-      run: |
-        ssh -i ~/.ssh/id_rsa ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "cd /home/farm && ./commands.sh"
-      env:
-        SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        deploy:
+          runs-on: ubuntu-latest
+          steps:
+          - name: Checkout code
+            uses: actions/checkout@v2
+          
+          - name: Set up SSH
+            run: |
+              mkdir -p ~/.ssh
+              echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
+              chmod 600 ~/.ssh/id_rsa
+              ssh-keyscan -H ${{ secrets.DROPLET_IP }} >> ~/.ssh/known_hosts
+      
+          - name: Execute Commands on Remote Server
+            run: |
+              ssh -i ~/.ssh/id_rsa ${{ secrets.SERVER_USER }}@${{ secrets.DROPLET_IP }} "cd /home/farm && ./commands.sh"
+            env:
+              SSH_KEY: ${{ secrets.SSH_KEY }}      
