@@ -1,5 +1,4 @@
-name: CI/CD Pipeline
-
+name: Run Tests
 on:
   push:
     branches:
@@ -21,40 +20,26 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Run tests
-        run: pytest
-
+        run: pytest 
+        
+        
   deploy-on-droplet:
-    needs: run-tests
-    runs-on: ubuntu-latest
-    steps:
-      - name: Set up SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_KEY }}" | tr -d '\r' > ~/.ssh/id_rsa
-          chmod 600 ~/._ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.DROPLET_IP }} >> ~/.ssh/known_hosts
-
-      - name: Setup SSH Agent
-        uses: webfactory/ssh-agent@v0.5.3
-        with:
-          ssh-private-key: ${{ secrets.SSH_KEY }}
-
-      - name: Prepare Environment and Update Branch
-        run: |
-          ssh -i ~/.ssh/id_rsa ${{ secrets.SERVER_USER }}@${{ secrets.DROPLET_IP }} "\
-            cd /home/farm && \
-            git fetch --all && \
-            git stash push -m 'Auto-stashing changes before switching branches' && \
-            git checkout main || git branch --list main || git branch main origin/main && \
-            git pull origin main"
-
-      - name: Configure Git and Commit Changes
-        run: |
-          ssh -i ~/.ssh/id_rsa ${{ secrets.SERVER_USER }}@${{ secrets.DROPLET_IP }} "\
-            cd /home/farm && \
-            git config user.name 'IamTravolta' && \
-            git config user.email 'travoltaogbee@hotmail.nl' && \
-            git add . && \
-            git diff --cached --exit-code && \
-            git commit -m 'Committing changes' || echo 'No changes to commit' && \
-            git push origin main || echo 'No changes to push'"
+          needs: run-tests
+          runs-on: ubuntu-latest
+          steps:
+            - name: Checkout repository
+              uses: appleboy/ssh-action@master
+              with:
+                host: ${{ secrets.SSH_HOST }} 
+                password: ${{ secrets.SSH_PRIVATE_KEY }}
+                username: ${{ secrets.SSH_USERNAME }}
+                port: ${{ secrets.SSH_PORT }}
+                script: |
+                  cd /home/farm
+                  git init .
+                  git clone git@github.com:M https://github.com/IamTravolta/cd-winc
+                  git pull
+                  systemctl restart farm
+                  systemctl status farm
+                  echo "Test"
+      
