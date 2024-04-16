@@ -39,4 +39,17 @@ jobs:
               git stash push -m 'Auto-stashing changes before switching branches' && \
               git checkout main || git branch main origin/main && \
               git pull origin main"
-                      
+
+              
+
+
+
+        - name: Configure Git and Commit Changes
+          run: |
+            ssh -i ~/.ssh/id_rsa ${{ secrets.SERVER_USER }}@${{ secrets.DROPLET_IP }} "\
+              cd /path/to/repository && \
+              git config user.name 'IamTravolta' && \
+              git config user.email 'travoltaogbee@hotmail.nl' && \
+              git add . && \
+              git commit -m 'Committing changes' && \
+              git push origin main"
