@@ -38,3 +38,17 @@ else
     echo "New changes detected, merging..."
     git merge FETCH_HEAD
 fi
+
+
+
+
+echo "Checking if Gunicorn is running the latest version..."
+sudo systemctl status gunicorn | grep 'Active'
+
+echo "Clearing server-side cache..."
+sudo redis-cli flushall
+
+echo "Restarting Gunicorn to apply new changes..."
+sudo systemctl restart gunicorn
+
+echo "Deployment checks completed."
