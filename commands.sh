@@ -27,3 +27,14 @@ if ! systemctl is-active --quiet farm.service; then
 else
     echo "Service started successfully!"
 fi
+
+
+
+
+# Example of checking if there are new changes to merge
+if git diff --quiet HEAD FETCH_HEAD; then
+    echo "No new changes to merge."
+else
+    echo "New changes detected, merging..."
+    git merge FETCH_HEAD
+fi
