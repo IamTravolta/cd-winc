@@ -2,7 +2,7 @@ name: Run Tests
 on:
   push:
     branches:
-      - main  # This is your deployment branch
+      - main  # This is the deployment branch
 
 jobs:
   run-tests:
