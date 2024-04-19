@@ -39,6 +39,14 @@ jobs:
             git pull https://github.com/IamTravolta/cd-winc.git
             systemctl restart farm
             systemctl status farm
+
+            echo "Checking if Gunicorn is running the latest version..."
+            sudo systemctl status gunicorn | grep 'Active'
+            echo "Clearing server-side cache..."
+            sudo redis-cli flushall
+            echo "Restarting Gunicorn to apply new changes..."
+            sudo systemctl restart gunicorn
+
             echo "Deployment Test Completed"
           timeout: 30s
           command_timeout: 10m
