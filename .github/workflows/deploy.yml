@@ -31,8 +31,9 @@ jobs:
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_TOKEN }}
+          key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
+          password: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /home/farm
             git pull https://github.com/IamTravolta/cd-winc.git
