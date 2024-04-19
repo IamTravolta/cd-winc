@@ -9,7 +9,7 @@ app = Flask(__name__)
 # Assign a function to be called when the path `/` is requested
 @app.route('/')
 def index():
-    result = power(2, 2)
+    result = power(2, 20)
     return f'The result is {result}'
 
 
