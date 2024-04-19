@@ -17,12 +17,12 @@ git branch --set-upstream-to=origin/main main
 git pull origin main
 
 # Try to restart the service
-sudo systemctl restart farm.service
+sudo systemctl restart homefarm.service
 
 # Check if the service started correctly
-if ! systemctl is-active --quiet farm.service; then
+if ! systemctl is-active --quiet homefarm.service; then
     echo "Service failed to start, displaying logs:"
-    systemctl status farm.service
+    systemctl status homefarm.service
     journalctl -xe
 else
     echo "Service started successfully!"
