@@ -21,8 +21,7 @@ jobs:
 
       - name: Run tests
         run: pytest 
-        
-        
+      
   deploy-on-droplet:
     runs-on: ubuntu-latest
     steps:
