@@ -19,6 +19,17 @@ git pull origin main
 # Try to restart the service
 sudo systemctl restart farm.service
 
+# Check if the service started correctly
+if ! systemctl is-active --quiet farm.service; then
+    echo "Service failed to start, displaying logs:"
+    systemctl status farm.service
+    journalctl -xe
+else
+    echo "Service started successfully!"
+fi
+
+
+
 
 # Example of checking if there are new changes to merge
 if git diff --quiet HEAD FETCH_HEAD; then
