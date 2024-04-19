@@ -16,6 +16,15 @@ app = Flask(__name__)
 def temp():
     return render_template('index.html')
 
+
+# Example Flask admin route to clear cache
+@app.route('/admin/clear-cache', methods=['POST'])
+def clear_cache():
+    from flask import cache
+    cache.clear()
+    return "Cache cleared successfully!"
+
+
 #@app.route('/cow')
 #def cow():
 #    return 'MOoooOo again!'
