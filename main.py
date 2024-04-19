@@ -24,6 +24,16 @@ def clear_cache():
     cache.clear()
     return "Cache cleared successfully!"
 
+# save this as clear_cache.py
+from flask import cache
+
+def main():
+    cache.clear()
+    print("Cache has been cleared.")
+
+if __name__ == "__main__":
+    main()
+
 
 #@app.route('/cow')
 #def cow():
