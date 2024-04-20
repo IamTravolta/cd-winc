@@ -43,5 +43,3 @@ jobs:
             echo "Deployment Test Completed"
           timeout: 30s
           command_timeout: 10m
-
-                  
