@@ -39,7 +39,7 @@ jobs:
             git pull https://github.com/IamTravolta/cd-winc.git
             systemctl restart farm
             systemctl status farm
-            sudo systemctl restart nginx
+            systemctl restart nginx
             echo "Deployment Test Completed"
           timeout: 30s
           command_timeout: 10m
